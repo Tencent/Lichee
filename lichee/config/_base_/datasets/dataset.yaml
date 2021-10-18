@@ -1,0 +1,24 @@
+
+DATASET:
+  TYPE: "torch"
+  NAME: "standard"
+
+  FORMAT: "tsv"
+
+  FIELD:
+    - NAME: ""
+      KEY: ""
+
+  DESC_PATH: ""
+
+  TRAIN_DATA:
+    DATA_PATH:
+      - ""
+    BATCH_SIZE: 64
+    WORKER_NUM: 2
+
+  EVAL_DATA:
+    DATA_PATH:
+      - ""
+    BATCH_SIZE: 64
+    WORKER_NUM: 2

@@ -1,0 +1,8 @@
+{
+  "id": "byte",
+  "tag_id": "int",
+  "category_id": "int",
+  "title": "byte",
+  "frame_feature": "bytes",
+  "asr_text": "byte"
+}

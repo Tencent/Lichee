@@ -1,0 +1,44 @@
+MODEL:
+  GRAPH:
+    - NAME: bert_repr
+      INPUTS:
+        - text_a
+      OUTPUTS:
+        - bert_output
+    - NAME: simple_cls
+      LABELS: label
+      INPUTS:
+        - bert_output
+
+DATASET:
+  NAME: dataset_mem
+  # SAMPLER: distributed
+  FORMAT: tsv
+  FIELD:
+    - NAME: single_cls
+      KEY: label
+      NUM_CLASS: 2
+    - NAME: bert_text
+      KEY: text_a
+      VOCAB_PATH: https://pcg-kandian-alg-race-1251316161.cos.ap-guangzhou.myqcloud.com/lichee_opensource_model/bert_vocab.txt
+      MAX_SEQ_LEN: 128
+  DESC_PATH: local://desc.json
+  EVAL_DATA:
+    DATA_PATH:
+      - local://dev.tsv
+    BATCH_SIZE: 6
+  CONFIG:  # todo: this config is planned to remove
+    NUM_CLASS: 2
+
+RUNTIME:
+  DEBUG: true
+  # IMPLEMENT: DistributedDataParallel
+  # DIST_PARAMS: []
+  SAVE_MODEL_DIR: local://bert_test
+  EXPORT:
+    TYPE: torch_nn
+    NAME: model.torch_nn
+    DYNAMIC: true
+
+TRAINING:
+  EPOCHS: 1

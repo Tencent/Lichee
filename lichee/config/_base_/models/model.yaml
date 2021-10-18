@@ -1,0 +1,66 @@
+
+MODEL:
+  TYPE: torch
+  NAME: model_standard
+  TASK:
+    CONFIG:
+      TASK_OUTPUT: simple_cls_out
+#  REPRESENTATION:
+#    - NAME: bert_repr
+#      TYPE: bert
+#      FINE_TUNING: true
+#      PRETRAINED: true
+#      MODEL_PATH:
+#        TYPE: local
+#        PATH: bert_google.bin
+#      CONFIG:
+#        MIX_GRAINED: false
+#        MIX_MODE: basic
+#
+#        ATTENTION_PROBS_DROPOUT_PROB: 0.1
+#        DIRECTIONALITY: bidi
+#        HIDDEN_ACT: gelu
+#        HIDDEN_DROPOUT_PROB: 0.1
+#        HIDDEN_SIZE: 768
+#        NUM_HIDDEN_LAYERS: 12
+#        INITIALIZER_RANGE: 0.02
+#        INTERMEDIATE_SIZE: 3072
+#        MAX_POSITION_EMBEDDINGS: 512
+#        NUM_ATTENTION_HEADS: 12
+#        POOLER_FC_SIZE: 768
+#        POOLER_NUM_ATTENTION_HEADS: 12
+#        POOLER_NUM_FC_LAYERS: 3
+#        POOLER_SIZE_PER_HEAD: 128
+#        POOLER_TYPE: first_token_transform
+#
+#  TASK:
+#    NAME: simple_cls
+#    CONFIG:
+#      LOSS:
+#        NAME: cross_entropy
+#        VALUE_TYPE: long
+#        PARAM:
+#          TODO: 0
+#
+#  GRAPH:
+#    - NAME: bert_repr
+#      INPUTS:
+#        - text_a
+#      OUTPUTS:
+#        - bert_output
+#    - NAME: simple_cls
+#      LABEL: label
+#      INPUTS:
+#        - bert_output
+#
+#  CONFIG:
+#    TYPE_VOCAB_SIZE: 3
+#    VOCAB_PATH: bert_vocab.txt
+#    VOCAB_SIZE: 21128
+#    EMBEDDING_SIZE: 768
+#
+#    COARSE_VOCAB_PATH: bert_coarse_vocab.txt
+#    COARSE_VOCAB_SIZE: 221128
+#    COARSE_EMBEDDING_SIZE: 768
+#
+#    HIDDEN_SIZE: 768

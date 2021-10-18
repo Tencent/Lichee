@@ -1,0 +1,102 @@
+MODEL:
+  REPRESENTATION:
+    - NAME: nextvlad
+      TYPE: nextvlad
+      FEATURE_SIZE: 1536
+      OUTPUT_SIZE: 1024
+      EXPANSION_SIZE: 2
+      CLUSTER_SIZE: 64
+      NUM_GROUPS: 8
+      DROPOUT_PROB: 0.2
+    - NAME: title_bert
+      TYPE: bert
+      PRETRAINED: true
+      MODEL_PATH: https://pcg-kandian-alg-race-1251316161.cos.ap-guangzhou.myqcloud.com/lichee_opensource_model/bert_google/bert_google.bin
+      LEARNING_RATE: 0.000025
+      CONFIG:
+        VOCAB_SIZE: 21128
+        MAX_POSITION_EMBEDDINGS: 512
+        TYPE_VOCAB_SIZE: 3
+  TASK:
+    NAME: concat_cls
+    INPUT_SIZE: 1792
+    HIDDEN_SIZE: 1024
+    NUM_CLASSES: 2000
+    LABEL_KEY: tag_id
+    LOSS:
+      NAME: BCELoss
+      SCALE: 0.001
+
+  GRAPH:
+    - NAME: nextvlad
+      INPUTS:
+        - frame_feature
+      OUTPUTS:
+        - video_output
+    - NAME: title_bert
+      INPUTS:
+        - title
+      OUTPUTS:
+        - title_seq_list
+        - title_output
+    - NAME: concat_cls
+      LABELS: tag_id
+      INPUTS:
+        - video_output
+        - title_output
+
+DATASET:
+  NAME: "dataset_mem"
+  CHUNK_SIZE: 1
+  INDEX_LOADER_NUM: 8
+  FORMAT: "tfrecord"
+  FIELD:
+    - NAME: "frame_feature"
+      KEY: "frame_feature"
+      NUM_SEGMENT: 32
+    - NAME: "tag_cls"
+      KEY: "tag_id"
+      TAG_FILE: local://./data/tag_list.txt
+      TAG_SIZE: 2000
+    - NAME: "id"
+      KEY: "id"
+    - NAME: "bert_text"
+      KEY: "title"
+      VOCAB_PATH: https://pcg-kandian-alg-race-1251316161.cos.ap-guangzhou.myqcloud.com/lichee_opensource_model/bert_vocab.txt
+      MAX_SEQ_LEN: 32
+  DESC_PATH: local://./data/desc.json
+  DATA_BASE_DIR: "."
+  TRAIN_DATA:
+    DATA_PATH:
+      - local://./data/train.tfrecord
+    BATCH_SIZE: 16
+    WORKER_NUM: 1
+    PREFETCH_FACTOR: 2
+  EVAL_DATA:
+    DATA_PATH:
+      - local://./data/test.tfrecord
+    BATCH_SIZE: 16
+    WORKER_NUM: 1
+    PREFETCH_FACTOR: 2
+
+RUNTIME:
+  SEED: 9
+  AUTOCAST: false
+  REPORT_STEPS: 25
+  USE_SEED: true
+  DEBUG: true
+  SAVE_MODEL_DIR: "local://./embedding_baseline"
+  METRICS: "PRScore"
+  EXPORT:
+    TYPE: torch_nn
+    NAME: model.torch_nn
+    DYNAMIC: true
+
+TRAINING:
+  EPOCHS: 2
+  LEARNING_RATE: 0.0005
+  OPTIMIZER:
+    NAME: LayeredOptim
+
+  SCHEDULER:
+    NAME: constant

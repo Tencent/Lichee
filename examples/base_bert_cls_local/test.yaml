@@ -1,0 +1,79 @@
+MODEL:
+  REPRESENTATION:
+    - NAME: bert_repr
+      TYPE: bert
+      FINE_TUNING: true
+      PRETRAINED: true
+      MODEL_PATH: https://pcg-kandian-alg-race-1251316161.cos.ap-guangzhou.myqcloud.com/lichee_opensource_model/bert_google/bert_google.bin
+      CONFIG:
+        TYPE_VOCAB_SIZE: 3
+        VOCAB_SIZE: 21128
+        EMBEDDING_SIZE: 768
+        HIDDEN_SIZE: 768
+
+  TASK:
+    NAME: simple_cls
+    CONFIG:
+      TASK_OUTPUT: simple_cls_out
+      LOSS:
+        NAME: cross_entropy
+        VALUE_TYPE: long
+
+  GRAPH:
+    - NAME: bert_repr
+      INPUTS:
+        - text_a
+      OUTPUTS:
+        - bert_output
+    - NAME: simple_cls
+      LABELS: label
+      INPUTS:
+        - bert_output
+
+  CONFIG:  # todo: this config is planned to remove
+    HIDDEN_SIZE: 768
+
+DATASET:
+  NAME: dataset_mem
+  # SAMPLER: distributed
+  FORMAT: tsv
+  FIELD:
+    - NAME: single_cls
+      KEY: label
+      NUM_CLASS: 2
+    - NAME: bert_text
+      KEY: text_a
+      VOCAB_PATH: https://pcg-kandian-alg-race-1251316161.cos.ap-guangzhou.myqcloud.com/lichee_opensource_model/bert_vocab.txt
+      MAX_SEQ_LEN: 128
+  DESC_PATH: local://desc.json
+  TRAIN_DATA:
+    DATA_PATH:
+      - local://train.tsv
+    BATCH_SIZE: 6
+  EVAL_DATA:
+    DATA_PATH:
+      - local://dev.tsv
+    BATCH_SIZE: 6
+  CONFIG:  # todo: this config is planned to remove
+    NUM_CLASS: 2
+
+RUNTIME:
+  DEBUG: true
+  # IMPLEMENT: DistributedDataParallel
+  # DIST_PARAMS: []
+  SAVE_MODEL_DIR: local://bert_test
+  EXPORT:
+    NAME: model.pth
+    TYPE: torch_nn
+  METRICS: PRF
+
+TRAINING:
+  EPOCHS: 1
+  OPTIMIZER:
+    NAME: BertAdamW
+    LEARNING_RATE: 2e-5
+    OPTIM_EPS: 1e-6
+    OPTIM_WEIGHT_DECAY: 0.0
+    CORRECT_BLAS: false
+  SCHEDULER:
+    NAME: warmup_linear

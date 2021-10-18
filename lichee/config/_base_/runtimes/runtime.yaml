@@ -1,0 +1,29 @@
+
+RUNTIME:
+  IMPLEMENT: DataParallel
+  LOG_LEVEL: INFO
+  USE_SEED: true
+  SEED: 9
+  GPU_IDS: auto
+
+  AUTOCAST: true
+
+  SAVE_MODEL_DIR: ./bert_test
+  EXPORT:
+    TYPE: torch_nn
+    NAME: model.torch_nn
+    DYNAMIC: true
+
+  PREDICT:
+    SHOULD_EXPORT_MODEL: false
+    SHOULD_EXPORT_SDK: false
+    EXPORT_RESULT_PATH:
+
+  DEBUG: false
+  COMPRESS: false
+  REPORT_STEPS: 20
+
+  METRICS: PRF
+
+  CONFIG:
+    QQSEG_PATH: qqseg_path
