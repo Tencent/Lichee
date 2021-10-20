@@ -1,4 +1,3 @@
-[TOC]
 ## 插件介绍
 BERT表示层，输出对应的token_ids, seg_ids, mask_ids, 输出每个encoder层的embedding和最终层的embedding， 支持标准Bert和混合粒度Bert两种模式，其中，混合粒度Bert需要分词方法。
 
