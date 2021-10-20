@@ -1,4 +1,8 @@
-[TOC]
+## Overview
+- [架构设计](docs/desc.md)
+- [插件介绍](docs/plugin/README.md)
+- [安装使用](docs/install.md)
+
 ## 框架简介
 方便使用，支持多模态，多任务的统一训练框架
 
@@ -41,3 +45,7 @@ sh predict.sh
 任务执行均依赖配置文件，详细介绍可[参考文档](./docs/config)
 
 若框架默认实现无法满足需求，也可以实现自定义插件，详细介绍可[参考文档](./docs/plugin)
+
+## Contributing
+如果你有好的意见或建议，欢迎给我们提 Issues 或 Pull Requests，为蓝鲸开源社区贡献力量。关于标准运维分支管理、Issue 以及 PR 规范，
+请阅读 [Contributing Guide](docs/CONTRIBUTING.md)。

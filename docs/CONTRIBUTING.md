@@ -1,5 +1,5 @@
 # Contributing to bk-sops
-我们欢迎 [Report Issues](https://github.com/Tencent/bk-sops/issues) 或者 [Pull requests](https://github.com/Tencent/bk-sops/pulls)。 在贡献代码之前请阅读以下指引。
+我们欢迎 [Report Issues](https://github.com/Tencent/Lichee/issues) 或者 [Pull requests](https://github.com/Tencent/Lichee/pulls)。 在贡献代码之前请阅读以下指引。
 
 
 ## 问题管理
