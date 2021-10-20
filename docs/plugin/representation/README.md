@@ -1,4 +1,3 @@
-[TOC]
 ## 插件介绍
 表示层插件包括：representation.py
 

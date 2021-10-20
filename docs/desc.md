@@ -1,5 +1,3 @@
-[TOC]
-
 ## 设计图
 <img src="../resources/images/lichee-design.png">
 
