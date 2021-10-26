@@ -9,6 +9,6 @@
 - test.tfrecord 验证集数据
 
 #### 具体目录结构
-├── desc.json
-├── test.tfrecord  
+├── desc.json \
+├── test.tfrecord \  
 └── train.tfrecord
